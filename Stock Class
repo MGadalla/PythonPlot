@@ -1,0 +1,47 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+class Stock:
+
+    def __init__(self, name, ticker, price, quantity, dividend):
+        print("Stock name is", name, "with ticker", ticker)
+        print("Book value", price * quantity, "CAD")
+        print("Quarterly dividen", quantity * dividend)
+        print("=====================")
+        self.name = name
+        self.ticker = ticker
+        self.price = price
+        self.quantity = quantity
+        self.dividend = dividend
+
+    def total_value(self):
+        return self.price * self.quantity
+
+
+stocks = [
+    Stock("Enbridge", "ENB", 50, 12, 0.91),
+    Stock("TD Bank", "TD", 85, 6, 0.95),
+    Stock("NWH.UN", "NWH", 5, 100, 0.3),
+    Stock("BMO Bank", "BMO", 130, 6, 1.47)
+]
+
+for stock in stocks:
+    print(stock.name, "'s total value is", stock.total_value())
+
+labels = [stock.name for stock in stocks]
+sizes = [stock.total_value() for stock in stocks]
+explode = [0.05 for stock in stocks]
+
+fig, ax = plt.subplots()
+ax.pie(sizes,
+       explode=explode,
+       shadow=True,
+       startangle=90,
+       labels=labels,
+       autopct='%1.1f%%',
+       textprops={
+           'fontsize': 14,
+           'weight': 'bold'
+       })
+ax.set_title('Portfolio', fontdict={'fontsize': 20, 'weight': 'bold'})
+fig.show()
