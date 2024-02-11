@@ -1,0 +1,54 @@
+import tkinter as tk
+import time
+
+def button_clicked(value):
+    # Get the current value of the text box
+    current_value = int(text_box.get())
+
+    # Increment or decrement the value by 1
+    new_value = current_value + value
+
+    # Update the text box with the new value
+    text_box.set(new_value)
+
+def start_counter():
+    global text_box
+    global counter_running
+    counter_running = True
+    while counter_running:
+        time.sleep(1)
+        text_box.set(int(text_box.get()) + 1)
+
+def stop_counter():
+    global counter_running
+    counter_running = False
+
+def reset_counter():
+    global counter_running
+    counter_running = False
+    text_box.set("0")
+
+# Create the window
+window = tk.Tk()
+
+# Create the text box
+text_box = tk.StringVar()
+text_box.set("0")
+text_box_label = tk.Label(window, textvariable=text_box, font=("Arial", 12), bg="blue", fg="black", width=10, height=2)
+text_box_label.pack()
+
+# Create the buttons
+button_increment = tk.Button(window, text="Increment", command=lambda: button_clicked(1), bg="green", fg="white", width=5, height=2)
+button_increment.pack(side="left")
+button_decrement = tk.Button(window, text="Decrement", command=lambda: button_clicked(-1), bg="red", fg="white", width=5, height=2)
+button_decrement.pack(side="left")
+
+button_start = tk.Button(window, text="Start", command=start_counter)
+button_start.pack(padx=5, pady=5, fill="x")
+button_stop = tk.Button(window, text="Stop", command=stop_counter)
+button_stop.pack(padx=5, pady=5, fill="x")
+button_reset = tk.Button(window, text="Reset", command=reset_counter)
+button_reset.pack(padx=5, pady=5, fill="x")
+
+# Run the window's main loop
+window.mainloop()
