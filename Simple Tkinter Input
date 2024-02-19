@@ -1,0 +1,35 @@
+from tkinter import Tk, Label, Button, Entry
+
+class MyFirstGUI:
+    def __init__(self, master):
+        self.master = master
+        master.title("A simple GUI")
+
+        # Set the window size
+        master.geometry("400x200")
+
+        self.label = Label(master, text="This is our first GUI!",
+                           font=("Arial", 20, "bold"), fg="red", bg="green")
+        self.label.pack()
+
+        self.entry = Entry(master)
+        self.entry.pack()
+
+        self.display_button = Button(master, text="Display", command=self.display_text)
+        self.display_button.pack()
+
+        self.close_button = Button(master, text="Close", command=master.quit)
+        self.close_button.pack()
+
+    def display_text(self):
+        # Get the text from the entry box
+        text = self.entry.get()
+
+        # Create a new Label widget to display the text
+        self.text_label = Label(self.master, text=text,
+                                 font=("Arial", 20, "bold"), fg="red", bg="green")
+        self.text_label.pack()
+
+root = Tk()
+my_gui = MyFirstGUI(root)
+root.mainloop()
