@@ -1,0 +1,58 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Mar 25 09:32:25 2024
+
+@author: Mahmoud
+"""
+from matplotlib import pyplot as plt
+import numpy as np
+import math
+import matplotlib.ticker as ticker
+
+#Distance
+z_int = np.array(range(0, 501, 1))
+z = np.array(z_int / 10)
+
+wavelength = 532e-9
+
+#Coll 110
+waist_radius_coll110 = 0.57e-3
+z_naught_coll110 = waist_radius_coll110 * waist_radius_coll110 * math.pi / wavelength
+foo1 = np.array((z/z_naught_coll110)**2)
+beam_size_coll110 = np.array(waist_radius_coll110 * np.sqrt(1 + foo1))
+
+#Coll 220
+waist_radius_coll220 = 1.05e-3
+z_naught_coll220 = waist_radius_coll220 * waist_radius_coll220 * math.pi / wavelength
+foo2 = (z/z_naught_coll220)**2
+beam_size_coll220 = waist_radius_coll220 * np.sqrt(1 + foo2)
+
+print(np.size(z))
+print(np.size(beam_size_coll110))
+
+plt.figure(figsize=(10,6))
+plt.plot(z, beam_size_coll110, label = "Coll 110")
+plt.plot(z, beam_size_coll220, label = "Coll 220")
+plt.xlabel("Distance in meters up to 50 m", fontsize=20)
+plt.ylabel("Beam radius in mm", fontsize=20)
+plt.legend(title = "532 nm" ,title_fontsize = 20 , loc="lower right", fontsize=20) 
+plt.title("Beam Size Vs. Distance (532 nm) ", fontsize=20)
+plt.grid()
+
+
+
+# specifying horizontal line type 
+#plt.axhline(y = 0.00211, color = 'r', linestyle = '--') 
+# Adding text to explain the function of the dotted line
+#plt.text(-0.2, 0.00205, "EO parabolic mirror hole's radius", color='red', fontsize=20)
+
+# Define a function to convert meters to mm and format the tick labels
+def meter_to_mm(x, pos):
+    return '{:.2f}'.format(x*1000)
+
+# Use the FuncFormatter to format the tick labels
+formatter = ticker.FuncFormatter(meter_to_mm)
+plt.gca().yaxis.set_major_formatter(formatter)
+
+plt.show()
+plt.savefig('LongDistance_50m.png')
